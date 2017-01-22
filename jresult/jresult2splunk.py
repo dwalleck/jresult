@@ -36,20 +36,19 @@ def convert_jresult_to_normalized_result(test_run_id, result):
 def save_results(results, host, port, username, password, index):
     
     # Verify we can connect with Splunk
-    """service = client.connect(
+    service = client.connect(
         host=host,
         port=port,
         username=username,
         password=password
-    )"""
+    )
 
     # Write each individual result to Splunk
     test_run_id = str(uuid.uuid4())
     for result in results['testcases']:
         normalized_result = convert_jresult_to_normalized_result(
             test_run_id, result)
-        print normalized_result
-        #service.indexes[index].submit(result)
+        service.indexes[index].submit(json.dumps(result)
 
 def entry_point():
     parser = argparse.ArgumentParser(description='jresult2splunk')
