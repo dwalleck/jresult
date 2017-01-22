@@ -23,4 +23,5 @@ setup(
     entry_points={
         'console_scripts':
         ['junitxml2jresult = jresult.junitxml2jresult:entry_point',
-         'validate-jresult = jresult.validate_schema:entry_point']})
+         'validate-jresult = jresult.validate_schema:entry_point',
+         'jresult2splunk = jresult.jresult2splunk:entry_point']})

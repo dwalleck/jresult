@@ -2,7 +2,6 @@ import argparse
 import json
 import sys
 
-import jsonschema
 from jsonschema import validate, ValidationError
 
 from jresult_schema import schema

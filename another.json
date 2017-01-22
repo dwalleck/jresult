@@ -1,0 +1,1 @@
+{"testsuites": {"tests": "3"}, "testcases": [{"classname": "foo1", "name": "ASuccessfulTest"}, {"classname": "foo2", "name": "AnotherSuccessfulTest"}, {"classname": "foo3", "failure": " details about failure ", "name": "AFailingTest"}]}

@@ -14,7 +14,11 @@ def convert_results(result_data, result_file):
 
     results = []
     for result in test_results:
-        results.append({result[0]: result[1] for result in result.items()})
+        partial_result = {result[0]: result[1] for result in result.items()}
+        # If there are error or failure entries, add them as well
+        for test_error in result.getchildren():
+            partial_result[test_error.tag] = test_error.text
+        results.append(partial_result)
 
     final_result = {
         'testsuites': result_summary,

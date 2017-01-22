@@ -1,0 +1,17 @@
+* Test Suite Name - Enumerated String (i.e. "Smoke", "Daily", "Full") **dw: Not part of junit results**
+** In the initial phase, we will not attempt to standardize the suite names.  They may be product/team specific
+* Execution Date/Time - Date/Time String **dw: Not part of junit results**
+* Environment - Enumerated String (i.e. "Staging", "Pre-Production", "Production") **dw: Not part of junit results**
+** In the initial phase, we will not attempt to standardize the environment names.  They may be product/team specific
+* Execution Duration -  Time String  (The test runner should calculate this number, especially in cases where tests
+                                      are being run in parallel and overall duration cannot simply be summed up from the
+                                      duration of the individual tests.)
+* Test Name - String
+* Test Duration - Time String
+* Test Result - Enumerated String, One of ["Pass", "Fail", "Skip"] **dw: no way to determine if a test was skipped from the testcase level. Also, should include error, as error != failure**
+* Failure Reason - String
+** Present only for tests which do not pass.  Otherwise, empty.
+** Conveys a concise explanation for the failure or skip.  For example "Assertion x == y failed" or "Skipped due to environment mismatch"
+
+NOTES:
+* Whenever possible, all Date/Time values shall be formatted in accordance with ISO 8601: https://en.wikipedia.org/wiki/ISO_8601

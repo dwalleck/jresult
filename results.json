@@ -1,0 +1,1 @@
+{"testsuites": {"tests": "1", "errors": "0", "name": "pytest", "skips": "0", "time": "0.007", "failures": "0"}, "testcases": [{"classname": "pytest_example", "line": "3", "name": "test_first_example", "file": "pytest_example.py", "time": "0.0"}]}
