@@ -11,6 +11,7 @@ testcase_schema = {
     'required': ['name', 'classname', 'time']
 }
 
+# TODO: The keys for testsuites should be required. Need to add to schema
 schema = {
     'type': 'object',
     'properties': {

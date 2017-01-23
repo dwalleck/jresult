@@ -18,7 +18,7 @@ def convert_jresult_to_normalized_result(test_run_id, result):
         reason = result['error']
     elif result.get('failure'):
         test_result = 'fail'
-        reason = result['fail']
+        reason = result['failure']
     else:
         test_result = 'pass'
     
@@ -48,7 +48,8 @@ def save_results(results, host, port, username, password, index):
     for result in results['testcases']:
         normalized_result = convert_jresult_to_normalized_result(
             test_run_id, result)
-        service.indexes[index].submit(json.dumps(result)
+        service.indexes[index].submit(json.dumps(result))
+
 
 def entry_point():
     parser = argparse.ArgumentParser(description='jresult2splunk')

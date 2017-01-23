@@ -4,7 +4,7 @@ import sys
 from xml.etree import ElementTree
 
 
-def convert_results(result_data, result_file):
+def convert_results(result_data):
     # Developed against the accepted jUnit XML spec:
     # https://github.com/windyroad/JUnit-Schema/blob/master/JUnit.xsd
     element = ElementTree.parse(result_data).getroot()
@@ -25,8 +25,7 @@ def convert_results(result_data, result_file):
         'testcases': results
     }
 
-    output_file = open(result_file, 'w+')
-    json.dump(final_result, output_file)
+    return final_result
 
 
 def entry_point():
@@ -46,4 +45,6 @@ def entry_point():
     )
 
     args = parser.parse_args()
-    convert_results(args.input, args.result_file)
+    final_results = convert_results(args.input, args.result_file)
+    output_file = open(args.result_file, 'w+')
+    json.dump(final_result, output_file)
