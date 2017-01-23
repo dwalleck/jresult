@@ -11,6 +11,7 @@ setup(
     author_email='dwalleck@gmail.com',
     url='https://github.com/dwalleck/jresult',
     packages=find_packages(),
+    install_requires=open('requirements.txt').readlines(),
     classifiers=(
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
