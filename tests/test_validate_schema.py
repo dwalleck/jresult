@@ -1,6 +1,6 @@
 from jsonschema import ValidationError
 
-from jresult import validate_schema, jresult_schema
+from xunitjson import validate_schema, xunitjson_schema
 
 
 
@@ -24,7 +24,7 @@ valid_result = {
 
 
 def test_validate_schema():
-    validate_schema.validate(valid_result, jresult_schema.schema)
+    validate_schema.validate(valid_result, xunitjson_schema.schema)
 
 
 def test_validate_invalid_schema_fails():
@@ -32,7 +32,7 @@ def test_validate_invalid_schema_fails():
     del invalid_result['testsuites']
     
     try:
-        validate_schema.validate(invalid_result, jresult_schema.schema)
+        validate_schema.validate(invalid_result, xunitjson_schema.schema)
     except ValidationError as ex:
         # This is the expected path
         assert ex.message == "'testsuites' is a required property"
