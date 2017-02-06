@@ -6,26 +6,26 @@ much easier to use with existing tools such as Splunk and Elasticsearch.
 
 This repository contains three executables:
 
-junitxml2jresult
+junitxml2xunitjson
 ----------------
 
 This utility will take a file or piped-in stream of junit XML content and
-convert it to a jresult file.
+convert it to a xunitjson file.
 
-validate-jresult
+validate-xunitjson
 ----------------
 
 This utility will take a file or piped-in stream of content and verify if the
-content matches the jresult schema. This is performed using Python's
-jsonschema library. The actual schema is defined in the jresult.jresult_schema
-package.
+content matches the xunitjson schema. This is performed using Python's
+jsonschema library. The actual schema is defined in the
+xunitjson.xunitjson_schema package.
 
-jresult2splunk
+xunitjson2splunk
 --------------
 
-This script will take a jresult file or stream, normalize the single result
+This script will take a xunitjson file or stream, normalize the single result
 into a series of individual result objects, and insert those results into a
 Splunk instance. This normalized format contains the same information as
-the jresult data, but treats each test result as its own document. This may
-be the ideal format for this data, so the intermediate jresult format may
+the xunitjson data, but treats each test result as its own document. This may
+be the ideal format for this data, so the intermediate xunitjson format may
 end up not being necessary.

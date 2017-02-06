@@ -1,3 +1,4 @@
 jsonschema
+requests
 six
 splunk-sdk

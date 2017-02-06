@@ -4,6 +4,7 @@ import sys
 import uuid
 
 from jsonschema import validate, ValidationError
+import requests
 
 from xunitjson_schema import schema
 from splunklib import client
@@ -24,17 +25,16 @@ def denormalize_xunitjson_result(test_run_id, result):
     
     denormalized_result = {
         'test_run_id': test_run_id,
-        'test_name': result['name'],
-        'test_classname': result['classname'],
+        'test_name': str(result['name']),
+        'test_classname': str(result['classname']),
         'test_result': test_result,
-        'reason': reason,
-        'duration': result['time'],
+        'reason': reason or '',
+        'duration': str(result['time']),
     }
     return denormalized_result
 
 
-def save_results(results, host, port, username, password, index):
-    
+def save_results_to_splunk(results, host, port, username, password, index):
     # Verify we can connect with Splunk
     service = client.connect(
         host=host,
@@ -49,6 +49,24 @@ def save_results(results, host, port, username, password, index):
         normalized_result = denormalize_xunitjson_result(
             test_run_id, result)
         service.indexes[index].submit(json.dumps(result))
+
+
+def send_results_to_splunk_http_collector(results, host, port, token):
+    headers = {'Authorization': 'Splunk {token}'.format(token=token),
+               'Content-Type': 'application/json'}
+    test_run_id = str(uuid.uuid4())
+    for result in results['testcases']:
+        normalized_result = denormalize_xunitjson_result(
+            test_run_id, result)
+        splunk_data = {
+            'sourcetype': 'xunitjson',
+            'event': normalized_result
+        }
+        response = requests.post(
+            'https://{host}:{port}/services/collector'.format(host=host, port=port),
+            headers=headers,
+            data=json.dumps(splunk_data),
+            verify=False)
 
 
 def entry_point():
@@ -96,10 +114,45 @@ def entry_point():
     results = json.loads(args.input.read())
     validate(results, schema)
 
-    save_results(
+    save_results_to_splunk(
         results,
         args.host,
         args.port,
         args.username,
         args.password,
         args.index)
+
+
+def http_collector_entry_point():
+    parser = argparse.ArgumentParser(description='xunitjson2httpcollector')
+
+    parser.add_argument(
+        'input',
+        nargs='?',
+        type=argparse.FileType('r'),
+        default=sys.stdin
+    )
+
+    parser.add_argument(
+        '--host', action='store',
+        dest='host',
+        default='localhost'
+    )
+
+    parser.add_argument(
+        '--port', action='store',
+        dest='port',
+        default='8088'
+    )
+
+    parser.add_argument(
+        '-t', action='store',
+        dest='token'
+    )
+
+    args = parser.parse_args()
+
+    # Validate the input file before further processing
+    results = json.loads(args.input.read())
+    validate(results, schema)
+    send_results_to_splunk_http_collector(results, args.host, args.port, args.token)
